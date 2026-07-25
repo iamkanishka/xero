@@ -1,0 +1,12 @@
+/_build/
+/deps/
+/.elixir_ls/
+/priv/plts/
+*.beam
+erl_crash.dump
+*.ez
+xero-*.tar
+.env
+.env.*
+/cover/
+/doc/
