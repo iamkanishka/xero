@@ -51,8 +51,8 @@ defmodule Xero.Test.HTTPCase do
     )
 
     %{
-      bypass:    bypass,
-      token:     Factory.valid_token(),
+      bypass: bypass,
+      token: Factory.valid_token(),
       tenant_id: Factory.tenant_id()
     }
   end
@@ -67,10 +67,12 @@ defmodule Xero.Test.HTTPCase do
   def stub_xero(bypass, method, path, status, body, extra_headers \\ []) do
     Bypass.stub(bypass, method, path, fn conn ->
       headers =
-        [{"content-type", "application/json"},
-         {"x-daylimit-remaining", "4999"},
-         {"x-minlimit-remaining", "59"},
-         {"x-correlation-id", "test-req-id"}] ++ extra_headers
+        [
+          {"content-type", "application/json"},
+          {"x-daylimit-remaining", "4999"},
+          {"x-minlimit-remaining", "59"},
+          {"x-correlation-id", "test-req-id"}
+        ] ++ extra_headers
 
       conn =
         Enum.reduce(headers, conn, fn {k, v}, c ->
