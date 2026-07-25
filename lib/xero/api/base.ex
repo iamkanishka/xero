@@ -28,11 +28,11 @@ defmodule Xero.API.Base do
     api = Keyword.fetch!(opts, :api)
 
     quote location: :keep do
+      alias Xero.API.Runtime
       alias Xero.Auth.Token
       alias Xero.Error
       alias Xero.HTTP.Client
       alias Xero.Paginator
-      alias Xero.API.Runtime
 
       @api unquote(api)
 
