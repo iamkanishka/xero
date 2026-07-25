@@ -34,7 +34,7 @@ A **complete, production-grade Elixir client** for all 13 Xero APIs — built wi
 # mix.exs
 def deps do
   [
-    {:xero, "~> 0.1"}
+    {:xero, "~> 1.0"}
   ]
 end
 ```
