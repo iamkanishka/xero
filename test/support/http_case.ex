@@ -35,22 +35,24 @@ defmodule Xero.Test.HTTPCase do
   setup do
     bypass = Bypass.open()
 
-    Application.put_env(:xero,
-      client_id: "test-client",
-      client_secret: "test-secret",
-      redirect_uri: "http://localhost/callback",
-      base_url: "http://localhost:#{bypass.port}",
-      identity_url: "http://localhost:#{bypass.port}",
-      timeout: 5_000,
-      connect_timeout: 2_000,
-      pool_size: 2,
-      pool_count: 1,
-      log_level: :none
+    Application.put_all_env(
+      xero: [
+        client_id: "test-client",
+        client_secret: "test-secret",
+        redirect_uri: "http://localhost/callback",
+        base_url: "http://localhost:#{bypass.port}",
+        identity_url: "http://localhost:#{bypass.port}",
+        timeout: 5_000,
+        connect_timeout: 2_000,
+        pool_size: 2,
+        pool_count: 1,
+        log_level: :none
+      ]
     )
 
     %{
-      bypass: bypass,
-      token: Factory.valid_token(),
+      bypass:    bypass,
+      token:     Factory.valid_token(),
       tenant_id: Factory.tenant_id()
     }
   end
@@ -65,12 +67,10 @@ defmodule Xero.Test.HTTPCase do
   def stub_xero(bypass, method, path, status, body, extra_headers \\ []) do
     Bypass.stub(bypass, method, path, fn conn ->
       headers =
-        [
-          {"content-type", "application/json"},
-          {"x-daylimit-remaining", "4999"},
-          {"x-minlimit-remaining", "59"},
-          {"x-correlation-id", "test-req-id"}
-        ] ++ extra_headers
+        [{"content-type", "application/json"},
+         {"x-daylimit-remaining", "4999"},
+         {"x-minlimit-remaining", "59"},
+         {"x-correlation-id", "test-req-id"}] ++ extra_headers
 
       conn =
         Enum.reduce(headers, conn, fn {k, v}, c ->
